@@ -46,7 +46,7 @@ const randomNumberGenerator = (positionsAvailable) => {
     randomPosition = Math.floor(Math.random() * 16)
   }
   console.log(`random Position; ${randomPosition}, randomNum: ${randomNum}`)
-  return {randomPosition, randomNum};
+  return {randomPosition, randomNum: randomNum.toString()};
 }
 
 let grid = startGrid();
@@ -103,6 +103,22 @@ const updateGrid = (key) => {
   const tempGrid = deepCopyGrid(grid);
   if (key === 'ArrowUp') {
     console.log("Up")
+    for (let col = 0; col < COLS; col++) 
+    {
+      for (let row = 0; row < ROWS; row++) 
+      {
+        if (tempGrid[row][col].number !== '0') {
+          let rowNewPos = row;
+          while (rowNewPos > 0 && tempGrid[rowNewPos - 1][col].number === '0') {
+            rowNewPos--;
+          }
+          if (rowNewPos !== row) {
+            tempGrid[rowNewPos][col].number = tempGrid[row][col].number;
+            tempGrid[row][col].number = '0';
+          }
+        }
+      }
+    }
   } else if (key === 'ArrowDown') {
     console.log("Down");
     for (let col = 0; col < COLS; col++) 
@@ -124,9 +140,38 @@ const updateGrid = (key) => {
 
   } else if (key === 'ArrowLeft') {
     console.log("Left")
+    for (let row = 0; row < ROWS; row++) {
+      for (let col = 0; col < COLS; col++) {
+        if (tempGrid[row][col].number !== '0') {
+          let colNewPos = col;
+          while (colNewPos > 0 && tempGrid[row][colNewPos - 1].number === '0') {
+            colNewPos--
+          }
+          if (colNewPos != col) {
+            tempGrid[row][colNewPos].number = tempGrid[row][col].number;
+            tempGrid[row][col].number = '0';
+          }
+        }
+      }
+    }
 
   } else if (key === 'ArrowRight') {
     console.log("Right")
+    for (let row = 0; row < ROWS; row++) {
+      for (let col = COLS - 1; col >= 0; col--) {
+        if (tempGrid[row][col].number !== '0') {
+          let colNewPos = col;
+          while (colNewPos + 1 < COLS  && tempGrid[row][colNewPos + 1].number === '0') {
+            colNewPos++
+          }
+          if (colNewPos != col) {
+            tempGrid[row][colNewPos].number = tempGrid[row][col].number;
+            tempGrid[row][col].number = '0';
+          }
+        }
+      }
+    }
+    
   }
   grid = tempGrid;
   printGrid();
