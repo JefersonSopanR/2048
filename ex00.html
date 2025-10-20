@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2048 Game</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="game-container ">
+<h1 >2048</h1>
+<div class="score-container p-4 bg-blue-100 mb-8">
+    <span>Score: <span id="score">0</span></span>
+    <button id="restart-btn" class="ml-4 bg-blue-500 text-white px-4 py-2 rounded">Restart</button>
+    </div>
+<div id="grid-container" class="grid grid-cols-4 gap-2 bg-amber-700 p-4 rounded-lg w-fit mx-auto">
+<!-- The grid will be filled by JavaScript -->
+</div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
