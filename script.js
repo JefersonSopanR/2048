@@ -42,7 +42,7 @@ const randomNumberGenerator = (positionsAvailable) => {
   }
   const randomPosition = Math.floor(Math.random() * 16);
   while (!positionsAvailable.some(pos => pos === randomPosition)) {
-    randomPosition = Math.floor(Math.random() * 16);
+    randomPosition = Math.floor(Math.random() * 16)
   }
   console.log(`random Position; ${randomPosition}, randomNum: ${randomNum}`)
   return {randomPosition, randomNum};
@@ -92,6 +92,28 @@ const printGrid = () => {
 printGrid();
 
 
+
+
+const deepCopyGrid = (grid) => {
+   return grid.map(row => ({ ...row }));
+};
+
+const updateGrid = (key) => {
+  const tempGrid = deepCopyGrid(grid);
+  if (key === 'ArrowUp') {
+    console.log("Up")
+  } else if (key === 'ArrowDown') {
+    console.log("Down")
+
+  } else if (key === 'ArrowLeft') {
+    console.log("Left")
+
+  } else if (key === 'ArrowRight') {
+    console.log("Right")
+  }
+
+}
+
 document.addEventListener('keydown', (event) => {
   const key = event.key;
   if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
@@ -109,14 +131,3 @@ buttonStart.addEventListener('click', () => {
   console.log(grid);
   printGrid();
 })
-
-
-
-
-
-
-
-
-//const copyGrid = (grid) => {
-//    return grid.flat().map(row => ({ ...row }));
-//};
