@@ -1,3 +1,6 @@
+const ROWS = 4;
+const COLS = 4;
+
 const startGrid = () => {
   const emptyCell = () => Array(4).fill().map(() => ({number: '0'}))
   const g = []
@@ -11,16 +14,14 @@ const startGrid = () => {
   const { randomPosition: pos2, randomNum: num2 } = randomNumberGenerator(firtsEmptyPositions.filter(index => index != pos1))
 
   
-  const finalGrid = g.flat().map((element, index) => {
-    if (index === pos1)
-      return {...element, number: num1}
-    else if (index === pos2)
-      return {...element, number: num2}
-    else
-      return element
-  })
+  const getIndex1dTo2d = (index) => [Math.floor(index / ROWS), (index % COLS)]
  
-  return finalGrid;
+  const [row1, col1] = getIndex1dTo2d(pos1);
+  const [row2, col2] = getIndex1dTo2d(pos2)
+
+  g[row1][col1].number = num1;
+  g[row2][col2].number = num2;
+  return g;
 }
 
 const getEmptyPositions = (grid) => {
@@ -40,7 +41,7 @@ const randomNumberGenerator = (positionsAvailable) => {
     alert("There are not positions available!!!!");
     return (-1);
   }
-  const randomPosition = Math.floor(Math.random() * 16);
+  let randomPosition = Math.floor(Math.random() * 16);
   while (!positionsAvailable.some(pos => pos === randomPosition)) {
     randomPosition = Math.floor(Math.random() * 16)
   }
@@ -95,7 +96,7 @@ printGrid();
 
 
 const deepCopyGrid = (grid) => {
-   return grid.map(row => ({ ...row }));
+   return grid.map(row => row.map(cell => ({...cell})));
 };
 
 const updateGrid = (key) => {
@@ -103,7 +104,23 @@ const updateGrid = (key) => {
   if (key === 'ArrowUp') {
     console.log("Up")
   } else if (key === 'ArrowDown') {
-    console.log("Down")
+    console.log("Down");
+    for (let col = 0; col < COLS; col++) 
+    {
+      for (let row = 3; row >= 0; row--) 
+      {
+        if (tempGrid[row][col].number !== '0') {
+          let rowNewPos = row;
+          while (rowNewPos + 1 < ROWS && tempGrid[rowNewPos + 1][col].number === '0') {
+            rowNewPos++;
+          }
+          if (rowNewPos !== row) {
+            tempGrid[rowNewPos][col].number = tempGrid[row][col].number;
+            tempGrid[row][col].number = '0';
+          }
+        }
+      }
+    }
 
   } else if (key === 'ArrowLeft') {
     console.log("Left")
@@ -111,6 +128,8 @@ const updateGrid = (key) => {
   } else if (key === 'ArrowRight') {
     console.log("Right")
   }
+  grid = tempGrid;
+  printGrid();
 
 }
 
